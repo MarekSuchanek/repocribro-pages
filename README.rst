@@ -1,5 +1,5 @@
-repocribro
-==========
+repocribro-pages
+================
 
 |license| |pypi| |requires|
 

@@ -17,7 +17,7 @@ setup(
     packages=find_packages(),
     entry_points={
         'repocribro.ext': [
-            'repocribro-core = repocribro_pages:make_extension'
+            'repocribro-pages = repocribro_pages:make_extension'
         ]
     },
     install_requires=[
