@@ -11,7 +11,7 @@ class Page(db.Model, SearchableMixin, SerializableMixin):
     __tablename__ = 'Page'
     __searchable__ = ['title', 'content']
     __serializable__ = ['id', 'slug', 'title', 'content', 'custom_css',
-                        'custom_js', 'privilege']
+                        'custom_js', 'privilege', 'parent_page_id']
     #: Unique identifier of the page
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
     #: URL slug for the page
@@ -26,6 +26,18 @@ class Page(db.Model, SearchableMixin, SerializableMixin):
     custom_js = sqlalchemy.Column(sqlalchemy.UnicodeText)
     #: Privilege to see the page
     privilege = sqlalchemy.Column(sqlalchemy.String(60), nullable=True)
+    #: ID of the repository where push belongs to
+    parent_page_id = sqlalchemy.Column(
+        sqlalchemy.Integer, sqlalchemy.ForeignKey('Page.id')
+    )
+    #: Parent page
+    parent_page = sqlalchemy.orm.relationship(
+        'Page', back_populates='child_pages'
+    )
+    #: Child pages
+    child_pages = sqlalchemy.orm.relationship(
+        'Page', back_populates='parent_page'
+    )
 
     #: Timestamp when page was created
     created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now)
