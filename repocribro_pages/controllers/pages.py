@@ -3,10 +3,11 @@ import flask
 from ..ext_pages import templates_env
 
 
-#: Admin controller blueprint
+#: Pages public controller blueprint
 pages = flask.Blueprint('pages', __name__, url_prefix='/pages')
 
 
+# TODO: security?
 @pages.route('/<slug>')
 def show_page(slug):
     env = templates_env()
