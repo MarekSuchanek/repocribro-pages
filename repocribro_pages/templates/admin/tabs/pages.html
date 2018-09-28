@@ -1,2 +1,35 @@
+{# TODO: get octicons #}
 
-table of pages
+<h2>Pages</h2>
+
+<a href="{{ url_for('create_page') }}" class="btn btn-success">
+    {{ octicon('plus') }} Create new page
+</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Slug</th>
+            <th>Parent</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for page in pages %}
+        <tr>
+            <td><a href="{{ url_for('show_page', slug=page.slug) }}">{{ page.title }}</a></td>
+            <td>{{ page.slug }}</td>
+            <td>{% if page.parent_page is None %}-{% else %}<a href="{{ url_for('show_page', slug=page.parent_page.slug) }}">{{ page.parent_page.title }}</a>{% endif %}</td>
+            <td class="buttons-cell">
+                <a href="{{ url_for('edit_page', slug=page.slug) }}" class="btn btn-primary btn-small">
+                    {{ octicon('tools') }}
+                </a>
+                <a href="{{ url_for('delete_page', slug=page.slug) }}" class="btn btn-danger btn-small">
+                    {{ octicon('trash') }}
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

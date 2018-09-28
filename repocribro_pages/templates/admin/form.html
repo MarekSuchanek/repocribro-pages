@@ -1,0 +1,34 @@
+{# TODO: extend the layout from core #}
+{# TODO: syntax highlight, WYSIWYG #}
+
+
+<div>
+    <form>
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" value="{{ page.title }}">
+
+        <label for="slug">URL Slug</label>
+        <input type="text" name="slug" id="slug" value="{{ page.slug }}">
+
+        <label for="content">Content</label>
+        <textarea name="content" id="content">{{ page.content }}</textarea>
+
+        <label for="custom_css">Custom CSS</label>
+        <textarea name="custom_css" id="custom_css">{{ page.custom_css }}</textarea>
+
+        <label for="custom_js">Custom JS</label>
+        <textarea name="custom_js" id="custom_js">{{ page.custom_js }}</textarea>
+
+        <label for="parent_page_id">Parent page</label>
+        <select name="parent_page_id" id="parent_page_id">
+            <option value="-1">
+                (None)
+            </option>
+            {% for xpage in pages|sort(attribute='title') %}
+            <option value="{{ xpage.id }}"{% if page.id == xpage.id %} selected{% endif %}>
+                {{ xpage.title }} ({{ xpage.slug }})
+            </option>
+            {% endfor %}
+        </select>
+    </form>
+</div>

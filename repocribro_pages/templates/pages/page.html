@@ -1,8 +1,45 @@
 {# TODO: extend the layout from core #}
 
-
 {% block body %}
-    <h1>{{ slug }}</h1>
+    <h1>{{ page.slug }}</h1>
 
-    {# TODO: display page content and details #}
+    {% if page.parent_page is not None %}
+    <nav id="parent-page">
+        Parent:
+        <a href="{{ url_for('show_page', slug=page.parent_page.slug) }}">
+            {{ page.parent_page.title }}
+        </a>
+    </nav>
+    {% endif %}
+
+    <article>
+        {{ page.content }}
+    </article>
+
+    {% if page.child_pages|length > 0 %}
+    <nav id="child-pages">
+        <h2>Child pages</h2>
+        <ul>
+            {% for child in page.child_pages %}
+                <li>
+                    <a href="{{ url_for('show_page', slug=child.slug) }}">
+                        {{ child.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+    {% endif %}
+{% endblock %}
+
+{% block style %}
+    {{ page.custom_css }}
+{% endblock %}
+
+{% block scripts %}
+    {% if page.custom_js is not None %}
+    <script type="application/javascript">
+        {{ page.custom_js }}
+    </script>
+    {% endif %}
 {% endblock %}
