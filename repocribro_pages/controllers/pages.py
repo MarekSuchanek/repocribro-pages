@@ -9,11 +9,7 @@ pages = flask.Blueprint('pages', __name__, url_prefix='/pages')
 @pages.route('/<slug>')
 def show_page(slug):
     db = flask.current_app.container.get('db')
-
-    print(f'>{slug}<')
     page = db.session.query(Page).filter_by(slug=slug).first()
-
-    print(f'>{slug}<>{page}<')
     if page is None:
         flask.abort(404)
     return flask.render_template('pages/page.html', page=page)

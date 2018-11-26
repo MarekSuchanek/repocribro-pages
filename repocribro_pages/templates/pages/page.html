@@ -6,8 +6,8 @@
     {% if page.parent_page is not none %}
     <nav id="parent-page">
         Parent:
-        <a href="{{ url_for('admin-pages.show_page', slug=page.parent_page.slug) }}">
-            {{ page.parent_page.title }}
+        <a href="{{ url_for('pages.show_page', slug=page.parent_page.slug) }}">
+            {{ page.parent_page.title }} ({{ page.parent_page.slug }})
         </a>
     </nav>
     {% endif %}
@@ -22,8 +22,8 @@
         <ul>
             {% for child in page.child_pages %}
                 <li>
-                    <a href="{{ url_for('admin-pages.show_page', slug=child.slug) }}">
-                        {{ child.title }}
+                    <a href="{{ url_for('pages.show_page', slug=child.slug) }}">
+                        {{ child.title }} ({{ child.slug }})
                     </a>
                 </li>
             {% endfor %}
