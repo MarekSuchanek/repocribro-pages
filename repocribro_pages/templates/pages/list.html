@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <h1>Pages</h1>
+
+    {# TODO: display hierarchy as sublists #}
+    <ul>
+    {% for page in pages if page.parent_page is none %}
+        <li><a href="{{ url_for('pages.show_page', slug=page.slug) }}">{{ page.title }} ({{ page.slug }})</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}

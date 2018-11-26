@@ -46,6 +46,11 @@ class RepocribroPages(Extension):
     def provide_models():
         return [Page]
 
+    @staticmethod
+    def provide_dropdown_menu_items():
+        return {
+            'pages.list': 'Pages',
+        }
 
 def make_extension(*args, **kwargs):
     return RepocribroPages(*args, **kwargs)

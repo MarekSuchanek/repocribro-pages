@@ -13,3 +13,10 @@ def show_page(slug):
     if page is None:
         flask.abort(404)
     return flask.render_template('pages/page.html', page=page)
+
+
+@pages.route('/')
+def list():
+    db = flask.current_app.container.get('db')
+    pages = db.session.query(Page).all()
+    return flask.render_template('pages/list.html', pages=pages)
