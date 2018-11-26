@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{# TODO: syntax highlight, WYSIWYG #}
+
+{% block body %}
+    <h1>{{ form_title }}</h1>
+
+    <div>
+        <form action="{{ form_action }}" method="{{ form_method }}">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control"  name="title" id="title" value="{{ page.title }}">
+            </div>
+
+            <div class="form-group">
+                <label for="slug">URL Slug</label>
+                <input type="text" class="form-control" name="slug" id="slug" value="{{ page.slug }}">
+            </div>
+
+            <div class="form-group">
+                <label for="xcontent">Content</label>
+                <textarea name="content" class="form-control" id="xcontent">{{ page.content }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="custom_css">Custom CSS</label>
+                <textarea name="custom_css" class="form-control" id="custom_css">{{ page.custom_css }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="custom_js">Custom JS</label>
+                <textarea name="custom_js" class="form-control" id="custom_js">{{ page.custom_js }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="parent_page_id">Parent page</label>
+                <select name="parent_page_id" class="form-control" id="parent_page_id">
+                    <option value="-1">
+                        (None)
+                    </option>
+                    {% for xpage in pages|sort(attribute='title') %}
+                    <option value="{{ xpage.id }}"{% if page.id == xpage.id %} selected{% endif %}>
+                        {{ xpage.title }} ({{ xpage.slug }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-success">Save</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>{{ page.slug }}</h1>
+
+    {% if page.parent_page is not none %}
+    <nav id="parent-page">
+        Parent:
+        <a href="{{ url_for('pages.show_page', slug=page.parent_page.slug) }}">
+            {{ page.parent_page.title }} ({{ page.parent_page.slug }})
+        </a>
+    </nav>
+    {% endif %}
+
+    <article>
+        {{ page.content|safe }}
+    </article>
+
+    {% if page.child_pages|length > 0 %}
+    <nav id="child-pages">
+        <h2>Child pages</h2>
+        <ul>
+            {% for child in page.child_pages %}
+                <li>
+                    <a href="{{ url_for('pages.show_page', slug=child.slug) }}">
+                        {{ child.title }} ({{ child.slug }})
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+    {% endif %}
+{% endblock %}
+
+{% block style %}
+    {{ super() }}
+    {{ page.custom_css }}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    {% if page.custom_js is not none %}
+    <script type="application/javascript">
+        {{ page.custom_js|safe }}
+    </script>
+    {% endif %}
+{% endblock %}
