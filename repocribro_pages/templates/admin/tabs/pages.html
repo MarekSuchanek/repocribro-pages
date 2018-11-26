@@ -1,8 +1,7 @@
-{# TODO: get octicons #}
-
+{% from "macros/basic.html" import octicon without context %}
 <h2>Pages</h2>
 
-<a href="{{ url_for('create_page') }}" class="btn btn-success">
+<a href="{{ url_for('admin-pages.create_page') }}" class="btn btn-success">
     {{ octicon('plus') }} Create new page
 </a>
 
@@ -18,15 +17,15 @@
     <tbody>
     {% for page in pages %}
         <tr>
-            <td><a href="{{ url_for('show_page', slug=page.slug) }}">{{ page.title }}</a></td>
+            <td><a href="{{ url_for('pages.show_page', slug=page.slug) }}">{{ page.title }}</a></td>
             <td>{{ page.slug }}</td>
-            <td>{% if page.parent_page is None %}-{% else %}<a href="{{ url_for('show_page', slug=page.parent_page.slug) }}">{{ page.parent_page.title }}</a>{% endif %}</td>
+            <td>{% if page.parent_page is none %}-{% else %}<a href="{{ url_for('pages.show_page', slug=page.parent_page.slug) }}">{{ page.parent_page.title }}</a>{% endif %}</td>
             <td class="buttons-cell">
-                <a href="{{ url_for('edit_page', slug=page.slug) }}" class="btn btn-primary btn-small">
+                <a href="{{ url_for('admin-pages.edit_page', slug=page.slug) }}" class="btn btn-primary btn-small">
                     {{ octicon('tools') }}
                 </a>
-                <a href="{{ url_for('delete_page', slug=page.slug) }}" class="btn btn-danger btn-small">
-                    {{ octicon('trash') }}
+                <a href="{{ url_for('admin-pages.delete_page', slug=page.slug) }}" class="btn btn-danger btn-small">
+                    {{ octicon('trashcan') }}
                 </a>
             </td>
         </tr>

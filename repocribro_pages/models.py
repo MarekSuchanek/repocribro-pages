@@ -9,7 +9,7 @@ from repocribro.models import SearchableMixin, SerializableMixin
 class Page(db.Model, SearchableMixin, SerializableMixin):
     """Release from GitHub"""
     __tablename__ = 'Page'
-    __searchable__ = ['title', 'content']
+    __searchable__ = ['slug', 'title', 'content']
     __serializable__ = ['id', 'slug', 'title', 'content', 'custom_css',
                         'custom_js', 'privilege', 'parent_page_id']
     #: Unique identifier of the page
@@ -32,18 +32,20 @@ class Page(db.Model, SearchableMixin, SerializableMixin):
     )
     #: Parent page
     parent_page = sqlalchemy.orm.relationship(
-        'Page', back_populates='child_pages'
+        'Page', remote_side=[id]
     )
     #: Child pages
     child_pages = sqlalchemy.orm.relationship(
-        'Page', back_populates='parent_page'
+        'Page', backref=sqlalchemy.orm.backref('parent', remote_side=[id])
     )
 
     #: Timestamp when page was created
-    created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now)
+    created_at = sqlalchemy.Column(sqlalchemy.DateTime,
+                                   default=datetime.datetime.now)
     #: Timestamp when page was last updated
-    updated_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now,
-                                   onupdate=datetime.now)
+    updated_at = sqlalchemy.Column(sqlalchemy.DateTime,
+                                   default=datetime.datetime.now,
+                                   onupdate=datetime.datetime.now)
 
     def __repr__(self):
         """Standard string representation of DB object

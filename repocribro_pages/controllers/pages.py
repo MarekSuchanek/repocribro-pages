@@ -1,7 +1,5 @@
 import flask
-
-from ..ext_pages import templates_env
-
+from repocribro_pages.models import Page
 
 #: Pages public controller blueprint
 pages = flask.Blueprint('pages', __name__, url_prefix='/pages')
@@ -10,7 +8,12 @@ pages = flask.Blueprint('pages', __name__, url_prefix='/pages')
 # TODO: security?
 @pages.route('/<slug>')
 def show_page(slug):
-    env = templates_env()
-    # TODO: permissions
-    # TODO: get page from DB or 404
-    return env.get_template('pages/page.html').render(slug=slug)
+    db = flask.current_app.container.get('db')
+
+    print(f'>{slug}<')
+    page = db.session.query(Page).filter_by(slug=slug).first()
+
+    print(f'>{slug}<>{page}<')
+    if page is None:
+        flask.abort(404)
+    return flask.render_template('pages/page.html', page=page)
